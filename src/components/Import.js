@@ -14,7 +14,7 @@ const Import = (props) => {
 
     return (
         <div>
-        <Button variant='contained' color='primary'>Import</Button>
+        <Button onClick={props.fetchMakes} variant='contained' color='primary'>Import</Button>
         <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -24,15 +24,13 @@ const Import = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.makes.map((row) => (
-            <TableRow key={row.name}>
+          {props.makes.map((car) => (
+            <TableRow key={car.name}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {car.MakeId}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{car.MakeName}</TableCell>
+              {/* <TableCell align="right">{row.fat}</TableCell> */}
             </TableRow>
           ))}
         </TableBody>
