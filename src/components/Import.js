@@ -1,21 +1,35 @@
-import React from 'react'
+import React from "react";
+import { MoreVert } from "@material-ui/icons";
+import DeleteIcon from "@material-ui/icons/Delete";
 import {
-    Button,
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-    Container,
-} from '@material-ui/core';
+  Button,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Container,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 
 const Import = (props) => {
-    // fill out this component
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-    return (
-        <div>
-        <Button onClick={props.fetchMakes} variant='contained' color='primary'>Import</Button>
-        <Table aria-label="simple table">
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <Button onClick={props.fetchMakes} variant="contained" color="primary">
+        Import
+      </Button>
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Id</TableCell>
@@ -30,13 +44,30 @@ const Import = (props) => {
                 {car.MakeId}
               </TableCell>
               <TableCell align="right">{car.MakeName}</TableCell>
-              {/* <TableCell align="right">{row.fat}</TableCell> */}
+              <TableCell align="right">
+                <MoreVert
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                ></MoreVert>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-        </div>
-    )
-}
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>
+          <DeleteIcon onClick={(idx) => props.deleteMake(idx)} />
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+};
 
-export default Import
+export default Import;
