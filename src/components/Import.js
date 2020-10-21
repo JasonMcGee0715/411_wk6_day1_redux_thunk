@@ -15,9 +15,11 @@ import {
 
 const Import = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [removeItem, setRemoveItem] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setRemoveItem(event.target.index);
   };
 
   const handleClose = () => {
@@ -26,6 +28,9 @@ const Import = (props) => {
 
   return (
     <div>
+      <h2 style={{ textAlign: "center" }}>
+        Number of Makes: {props.makes.length}
+      </h2>
       <Button onClick={props.fetchMakes} variant="contained" color="primary">
         Import
       </Button>
@@ -38,7 +43,7 @@ const Import = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.makes.map((car) => (
+          {props.makes.map((car, idx) => (
             <TableRow key={car.name}>
               <TableCell component="th" scope="row">
                 {car.MakeId}
@@ -63,7 +68,7 @@ const Import = (props) => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>
-          <DeleteIcon onClick={(idx) => props.deleteMake(idx)} />
+          <DeleteIcon onClick={(index) => props.deleteMake(index)} />
         </MenuItem>
       </Menu>
     </div>
