@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MoreVert } from "@material-ui/icons";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
@@ -8,18 +8,25 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Container,
+  // Container,
   Menu,
   MenuItem,
+  Paper,
 } from "@material-ui/core";
 
 const Import = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [removeItem, setRemoveItem] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [removedItem, setRemovedItem] = useState(null);
 
-  const handleClick = (event) => {
+  //Keep track of what is being set into the removedItems state
+  useEffect(() => {
+    console.log(removedItem);
+  }, [removedItem]);
+
+  //Start of handles
+  const handleClick = (event, index) => {
     setAnchorEl(event.currentTarget);
-    setRemoveItem(event.target.index);
+    setRemovedItem(index);
   };
 
   const handleClose = () => {
@@ -34,32 +41,34 @@ const Import = (props) => {
       <Button onClick={props.fetchMakes} variant="contained" color="primary">
         Import
       </Button>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Id</TableCell>
-            <TableCell align="right">Make</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {props.makes.map((car, idx) => (
-            <TableRow key={car.name}>
-              <TableCell component="th" scope="row">
-                {car.MakeId}
-              </TableCell>
-              <TableCell align="right">{car.MakeName}</TableCell>
-              <TableCell align="right">
-                <MoreVert
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                ></MoreVert>
-              </TableCell>
+      <Paper>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Id</TableCell>
+              <TableCell align="right">Make</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+            {props.makes.map((car, index) => (
+              <TableRow key={index}>
+                <TableCell component="th" scope="row">
+                  {car.MakeId}
+                </TableCell>
+                <TableCell align="right">{car.MakeName}</TableCell>
+                <TableCell align="right">
+                  <MoreVert
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  ></MoreVert>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -68,7 +77,9 @@ const Import = (props) => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>
-          <DeleteIcon onClick={(index) => props.deleteMake(index)} />
+          <DeleteIcon
+            onClick={(index) => props.deleteMake(removedItem, index)}
+          />
         </MenuItem>
       </Menu>
     </div>
