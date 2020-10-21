@@ -24,7 +24,7 @@ const Import = (props) => {
   }, [removedItem]);
 
   //Start of handles
-  const handleClick = (event, index) => {
+  const handleClick = (index) => (event) => {
     setAnchorEl(event.currentTarget);
     setRemovedItem(index);
   };
@@ -61,7 +61,7 @@ const Import = (props) => {
                   <MoreVert
                     aria-controls="simple-menu"
                     aria-haspopup="true"
-                    onClick={handleClick}
+                    onClick={handleClick(index)}
                   ></MoreVert>
                 </TableCell>
               </TableRow>
